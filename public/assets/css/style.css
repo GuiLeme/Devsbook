@@ -350,6 +350,7 @@ header .head-side {
 
 .user-photo-item {
     margin-right:10px;
+    max-width: 25%;
 }
 .user-photo-item:last-child {
     margin-right:0;
@@ -389,6 +390,52 @@ header .head-side {
 }
 .full-user-photos .user-photo-item {
     margin:0;
+    max-width: 100%;
+}
+
+.feed-pagination{
+    margin-top: 5px;
+}
+
+.feed-pagination a{
+    padding: 7px 10px;
+    text-decoration: none;
+    margin: 5px;
+
+    color: #000;
+    border: 1px solid #CCC;
+}
+
+.feed-pagination a.active{
+    background-color: #FFF;
+}
+
+.feed-pagination a:hover{
+    background-color: #999;
+}
+
+.button {
+    border:0;
+    padding:10px 20px;
+    background-color:#4a76a8;
+    border-radius:10px;
+    color:#FFF;
+    font-size:15px;
+    cursor:pointer;
+    box-shadow:0px 0px 3px #999;
+    text-decoration: none;
+    display: inline-block;
+}
+.button:hover {
+    background-color:#477dbb;
+}
+
+.no-photos{
+    background-color: #8ca84a;
+    border-radius: 5px;
+    padding: 3px;
+    padding-left: 8px;
+    color: #fff;
 }
 
 @media (max-width: 992px) {

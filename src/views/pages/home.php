@@ -1,6 +1,6 @@
 <?=$render('header', ['loggedUser' => $loggedUser]);?>
 <section class="container main">
-    <?=$render('sidebar');?>
+    <?=$render('sidebar', ['activeMenu' => 'home']);?>
     <section class="feed mt-10">
         
         <div class="row">
@@ -8,11 +8,24 @@
 
                 <?=$render('feed-editor', ['user' => $loggedUser]);?>
 
+                <?php foreach($feed['posts'] as $feedItem):?>    
+                    <?=$render('feed-item', [
+                        'feedItem' => $feedItem,
+                        'loggedUser' => $loggedUser
+                        ]);?>
+                <?php endforeach;?>
 
-                <?=$render('feed-item');?>
-                <?=$render('feed-item');?>
+                <div class="feed-pagination">
+                    <?php for($q=0; $q<$feed['totalPaginas']; $q++):?>
+                        <a href="<?=$base?>/?page=<?=$q?>" 
+                            class="<?=($currentPage === $q)? 'active': '' ?>">
+                                <?=$q+1?>
+                        </a>
+                    <?php endfor;?>
+                </div>
 
             </div>
+            
             <div class="column side pl-5">
                 <div class="box banners">
                     <div class="box-header">
