@@ -69,6 +69,7 @@ class UserHandler{
             $user->avatar = $data['avatar'];
             $user->cover = $data['cover'];
             $user->birthdate = $data['birthdate'];
+            $user->email = $data['email'];
 
             if($full){
                 $user->followers = [];
@@ -150,6 +151,76 @@ class UserHandler{
         UserRelation::delete()
             ->where('user_to', $to)
             ->where('user_from', $from)
+        ->execute();
+    }
+    public static function searchUser($searchTerm){
+        $users = [];
+
+        $data = User::select()->where('name', 'like', '%'.$searchTerm.'%')->get();
+        if(count($data)>0){
+            foreach($data as $user){
+                $newUser = new User();
+                $newUser->id = $user['id'];
+                $newUser->name = $user['name'];
+                $newUser->avatar = $user['avatar'];
+
+                $users[] = $newUser;
+            }
+        }
+
+        return $users;
+
+    }
+
+    public static function compareUser($old, $new){
+        $passo = false;
+        if ($new->email && $new->name && $new->birthdate){
+            if($new->email!=$old->email){
+                if (!self::emailExists($new->email)){
+                    $old->email = $new->email;
+                    $passo = true;
+                }
+            }
+            if ($old->name != $new->name){
+                $old->name = $new->name;
+                $passo = true;
+            }
+            if($old->birthdate != $new->birthdate){
+                $old->birthdate = $new->birthdate;
+                $passo = true;
+            }
+            
+        } else{
+            return false;
+        }
+        if ($new->work && $old->work != $new->work){
+            $old->work = $new->work;
+            $passo = true;
+        }
+        if ($new->city && $old->city != $new->city){
+            $old->city = $new->city;
+            $passo = true;
+        }
+        return $passo;
+    }
+
+    public static function update($user){
+        if (empty($user->city)){
+            $user->city = '';
+        }
+        if (empty($user->work)){
+            $user->work = '';
+        }
+
+        User::update()
+            ->set('name', $user->name)
+            ->set('email', $user->email)
+            ->set('birthdate', $user->birthdate)
+            ->set('city', $user->city)
+            ->set('work', $user->work)
+            ->set('avatar', $user->avatar)
+            ->set('cover', $user->cover)
+            ->where('id', $user->id)
         ->execute();
     }
 }

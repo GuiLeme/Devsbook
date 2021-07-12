@@ -25,7 +25,8 @@ $router->get('/amigos', 'ProfileController@friends');
 
 $router->get('/sair', 'LoginController@logout');
 
-//$router->get('/pesquisa');
-//$router->get('/amigos');
-//$router->get('/fotos');
-//$router->get('/config');
+$router->get('/pesquisa', 'SearchController@index');
+
+$router->post('/config/action', 'ConfigController@action');
+$router->get('/config', 'ConfigController@index');
+
